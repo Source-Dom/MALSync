@@ -80,7 +80,7 @@ async function animekai() {
 
 async function bato() {
   // Use a proxy to avoid blocking issues with github actions
-  const proxyAgent = new HttpsProxyAgent('http://143.55.111.114:3128');
+  const proxyAgent = new HttpsProxyAgent('http://143.255.111.114:3128');
 
   let response;
   try {
@@ -93,6 +93,7 @@ async function bato() {
       follow: '1000',
       redirect: 'follow',
       signal: AbortSignal.timeout(60000),
+      headers: { 'User-Agent': 'Mozilla/5.0' },
     });
     console.log('[bato] Fetched https://rentry.co/batoto');
   } catch (error) {
@@ -107,6 +108,7 @@ async function bato() {
         follow: '1000',
         redirect: 'follow',
         signal: AbortSignal.timeout(60000),
+        headers: { 'User-Agent': 'Mozilla/5.0' },
       });
       console.log('[bato] Fetched https://rentry.org/batoto');
     } catch (error) {
@@ -206,6 +208,7 @@ async function start() {
   };
 
   for (const key of Object.keys(tasks)) {
+    console.log(`::group::[${key}]`);
     await tasks[key]().catch(e => {
       console.error(`::error::[${key}]:`, e);
       lastError = e;
