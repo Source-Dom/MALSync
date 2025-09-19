@@ -80,7 +80,7 @@ async function animekai() {
 
 async function bato() {
   // Use a proxy to avoid blocking issues with github actions
-  const proxyAgent = new HttpsProxyAgent('http://143.255.111.114:3128');
+  const proxyAgent = new HttpsProxyAgent('http://143.55.111.114:3128');
 
   let response;
   try {
@@ -110,7 +110,7 @@ async function bato() {
       });
       console.log('[bato] Fetched https://rentry.org/batoto');
     } catch (error) {
-      console.error('::error::[bato ] Second fetch attempt failed -', error);
+      console.error('::error::[bato] Second fetch attempt failed -', error);
       throw new Error('Failed to fetch [bato] mirrors list from rentry.co and rentry.org', error);
     }
   }
