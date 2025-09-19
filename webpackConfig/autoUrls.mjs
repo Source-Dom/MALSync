@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 import fs from 'fs';
 import path from 'path';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // players
 async function voe() {
@@ -78,12 +79,43 @@ async function animekai() {
 }
 
 async function bato() {
-  let response = await fetch('https://rentry.co/batoto');
-  if (!response.ok) {
-    response = await fetch('https://rentry.org/batoto');
-  }
-  const body = await response.text();
+  // Use a proxy to avoid blocking issues with github actions
+  const proxyAgent = new HttpsProxyAgent('http://143.255.111.114:3128');
 
+  let response;
+  try {
+    console.log(
+      '[bato] Fetching https://rentry.co/batoto, using proxy agent:',
+      proxyAgent.proxy.origin,
+    );
+    response = await fetch('https://rentry.co/batoto', {
+      agent: proxyAgent,
+      follow: '1000',
+      redirect: 'follow',
+      signal: AbortSignal.timeout(60000),
+    });
+    console.log('[bato] Fetched https://rentry.co/batoto');
+  } catch (error) {
+    console.error('::error::[bato] First fetch attempt failed, retrying with rentry.org -', error);
+    try {
+      console.log(
+        '[bato] Fetching https://rentry.org/batoto, using proxy agent:',
+        proxyAgent.proxy.origin,
+      );
+      response = await fetch('https://rentry.org/batoto', {
+        agent: proxyAgent,
+        follow: '1000',
+        redirect: 'follow',
+        signal: AbortSignal.timeout(60000),
+      });
+      console.log('[bato] Fetched https://rentry.org/batoto');
+    } catch (error) {
+      console.error('::error::[bato ] Second fetch attempt failed -', error);
+      throw new Error('Failed to fetch [bato] mirrors list from rentry.co and rentry.org', error);
+    }
+  }
+
+  const body = await response.text();
   const $ = cheerio.load(body);
   //remove links that are still in development (removes everything after .warning class and itself)
   $('.warning').nextAll().remove().end().remove();
@@ -175,13 +207,13 @@ async function start() {
 
   for (const key of Object.keys(tasks)) {
     await tasks[key]().catch(e => {
-      console.error(`[${key}]:`, e);
+      console.error(`::error::[${key}]:`, e);
       lastError = e;
     });
   }
 
   if (lastError) {
-    throw new Error('Some tasks failed');
+    throw new Error('::error::Some tasks failed');
   }
 }
 
