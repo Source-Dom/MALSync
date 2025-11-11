@@ -93,12 +93,17 @@ pages.forEach(el => {
     return;
   }
   content_scripts.push({
-    matches: generateMatchExcludes({urls: cUrls }).match,
-    exclude_globs: generateMatchExcludes({urls: cUrls}).exclude,
-    js: ['vendor/jquery.min.js', 'i18n.js', 'content/page_'+el+'.js', 'content/content-script.js'],
+    matches: generateMatchExcludes({ urls: cUrls }).match,
+    exclude_globs: generateMatchExcludes({ urls: cUrls }).exclude,
+    js: [
+      'vendor/jquery.min.js',
+      'i18n.js',
+      'content/page_' + el + '.js',
+      'content/content-script.js',
+    ],
     run_at: 'document_start',
   });
-})
+});
 
 content_scripts.push({
   matches: generateMatchExcludes(playerUrls).match,
@@ -120,12 +125,14 @@ const generateManifest = () => {
         id: '{ceb9801e-aa0c-4bc6-a6b0-9494f3164cc7}',
       },
     },
-    background: appTarget === 'firefox' ?
-      {
-        scripts: ['background.js'],
-      } : {
-        service_worker: 'background.js',
-      },
+    background:
+      appTarget === 'firefox'
+        ? {
+            scripts: ['background.js'],
+          }
+        : {
+            service_worker: 'background.js',
+          },
     content_security_policy: {
       extension_pages: "script-src 'self'; object-src 'self';",
     },
@@ -148,39 +155,32 @@ const generateManifest = () => {
     },
     content_scripts: content_scripts,
     icons: {
-      '16': 'icons/icon16.png',
-      '32': 'icons/icon32.png',
-      '48': 'icons/icon48.png',
-      '128': 'icons/icon128.png',
+      16: 'icons/icon16.png',
+      32: 'icons/icon32.png',
+      48: 'icons/icon48.png',
+      128: 'icons/icon128.png',
+      192: 'icons/icon192.png',
+      512: 'icons/icon512.png',
     },
     web_accessible_resources: [
       {
-        "resources": ['vendor/*', 'assets/*', 'icons/*', 'content/proxy/*', 'window.html'],
-        "matches": ["*://*/*"],
-      }
+        resources: ['vendor/*', 'assets/*', 'icons/*', 'content/proxy/*', 'window.html'],
+        matches: ['*://*/*'],
+      },
     ],
     declarative_net_request: {
       rule_resources: [
         {
-          "id": "ruleset",
-          "enabled": true,
-          "path": "declarative_net.json"
-        }
-      ]
+          id: 'ruleset',
+          enabled: true,
+          path: 'declarative_net.json',
+        },
+      ],
     },
-    permissions: [
-      'storage',
-      'alarms',
-      'notifications',
-      'declarativeNetRequestWithHostAccess',
-    ],
-    "optional_permissions": [
-      "scripting",
-    ],
+    permissions: ['storage', 'alarms', 'notifications', 'declarativeNetRequestWithHostAccess'],
+    optional_permissions: ['scripting'],
     host_permissions: httpPermissionsJson,
-    "optional_host_permissions": [
-      "*://*/*",
-    ],
+    optional_host_permissions: ['*://*/*'],
   };
 
   if (mode === 'travis' && appTarget !== 'firefox') {
@@ -188,10 +188,7 @@ const generateManifest = () => {
   } else if (mode === 'dev') {
     delete mani.browser_specific_settings;
     mani.name = `${mani.name} (DEV)`;
-    mani.version = new Date()
-      .toISOString()
-      .replace(/T.*/, '')
-      .replace(/-/g, '.');
+    mani.version = new Date().toISOString().replace(/T.*/, '').replace(/-/g, '.');
   }
 
   return JSON.stringify(mani, null, 2);
@@ -211,6 +208,39 @@ mkdirp(path.join(__dirname, '../dist/webextension')).then(err => {
   fs.writeFile(
     path.join(__dirname, '../dist/webextension/i18n.js'),
     `const i18n = ${JSON.stringify(i18n())}`,
+    err => {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
+    },
+  );
+
+  // TODO: Also emit a web app manifest with maskable icons for PWA usage
+  const webAppManifest = {
+    name: packageJson.productName,
+    short_name: packageJson.productName,
+    icons: [
+      {
+        src: 'icons/icon192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+      {
+        src: 'icons/icon512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+    ],
+    start_url: '.',
+    display: 'standalone',
+  };
+
+  fs.writeFile(
+    path.join(__dirname, '../dist/webextension/manifest.webmanifest'),
+    JSON.stringify(webAppManifest, null, 2),
     err => {
       if (err) {
         console.error(err);
@@ -304,7 +334,7 @@ mkdirp(path.join(__dirname, '../dist/webextension')).then(err => {
       filename: key,
     };
 
-    download(url, options, function(err) {
+    download(url, options, function (err) {
       if (err) {
         console.error(err);
         process.exit(1);
