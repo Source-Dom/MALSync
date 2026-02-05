@@ -16,6 +16,8 @@ export const AnimeKAI: PageInterface = {
       '*://animekai.la/*',
       '*://animekai.nl/*',
       '*://animekai.vc/*',
+      '*://animekai.vca/*',
+      '*://animekai.vcb/*',
     ],
   },
   search: 'https://animekai.to/browser?keyword={searchtermPlus}',

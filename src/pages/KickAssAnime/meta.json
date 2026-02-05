@@ -13,7 +13,9 @@
       "*://*.kaa.to/*",
       "*://*.kaa.si/*",
       "*://*.kickass-anime.ro/*",
-      "*://*.kickassanime.cx/*"
+      "*://*.kickassanime.cx/*",
+      "*://*.kickassanime.cxa/*",
+      "*://*.kickassanime.cxb/*"
     ]
   }
 }
