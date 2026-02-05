@@ -2,9 +2,11 @@
   "0.11.0": {
     "KickAssAnime": [
       "*://*.kaa.mx/*"
+      "*://*.kaa.mxa/*"
     ],
     "TRanimeizle": [
       "*://*.tranimeizle.top/*"
+      "*://*.tranimeizle.topa/*"
     ],
     "iframe": [
       "*://maxfinishseveral.com/e/*",
@@ -12,6 +14,8 @@
       "*://filemoon.sx/lol/*",
       "*://kerapoxy.cc/lol/*",
       "*://vpcxz19p.xyz/lol/*",
+      "*://vpcxz19p.xyz/lola/*",
+      "*://vpcxz19p.xyz/lolb/*",
       "*://filemoon.top/lol/*",
       "*://fmoonembed.pro/lol/*",
       "*://rgeyyddl.skin/lol/*",
@@ -29,10 +33,12 @@
   "0.11.1": {
     "Anime365": [
       "*://smotret-anime.ru/catalog/*",
-      "*://smotretanime.ru/catalog/*"
+      "*://smotretanime.ru/catalog/*",
+      "*://smotretanime.ru/cataloga/*"
     ],
     "AnimeXin": [
-      "*://animexin.dev/*"
+      "*://animexin.dev/*",
+      "*://animexin.deva/*"
     ],
     "Animeworld": [
       "*://*.animeworld.ac/play/*"
@@ -59,6 +65,8 @@
       "*://mariatheserepublican.com/e/*",
       "*://www.animeworld.ac/api/episode/serverPlayerAnimeWorld?id=*",
       "*://z7ihwgqj.fun/*",
+      "*://z7ihwgqj.funa/*",
+      "*://z7ihwgqj.funb/*",
       "*://megacloud.club/*",
       "*://megacloud.blog/*",
       "*://swishsrv.com/e/*",
@@ -122,6 +130,8 @@
       "*://smotret-anime.online/*",
       "*://smotret-anime.com/*",
       "*://anime365.ru/*",
+      "*://anime365.rua/*",
+      "*://anime365.rub/*",
       "*://anime-365.ru/*",
       "*://smotret-anime.ru/*",
       "*://smotretanime.ru/*",
@@ -136,14 +146,17 @@
     "KickAssAnime": [
       "*://*.kaa.si/*",
       "*://*.kickass-anime.ro/*",
-      "*://*.kickassanime.cx/*"
+      "*://*.kickassanime.cx/*",
+      "*://*.kickassanime.cxa/*"
     ],
     "iframe": [
       "*://smotret-anime.ru/translations/embed/*",
       "*://smotretanime.ru/translations/embed/*",
       "*://smotret-anime.app/translations/embed/*",
       "*://*.m1xdrop.net/e/*",
-      "*://*.m1xdrop.com/e/*",
+      "*://*.m1xdrop.com/ec/*",
+      "*://*.m1xdrop.com/ea/*",
+      "*://*.m1xdrop.com/eb/*",
       "*://vidmoly.biz/*",
       "*://christopheruntilpoint.com/e/*",
       "*://walterprettytheir.com/e/*",
