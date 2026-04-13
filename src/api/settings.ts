@@ -18,6 +18,7 @@ export const settingsObj = {
     userscriptModeButton: false,
     syncMode: 'MAL',
     syncModeSimkl: 'MAL',
+    splitTracking: false,
     localSync: true,
     delay: 0,
     videoDuration: 85,
@@ -56,7 +57,6 @@ export const settingsObj = {
       'MangaFox',
       'MangaSee',
       'MangaFire',
-      'HiAnime',
       'Hulu',
       'Netflix',
       'Hidive',
@@ -95,6 +95,8 @@ export const settingsObj = {
 
     customDomains: [],
 
+    chibiRepos: [],
+
     anilistExternalSources: false,
     anilistUpdateUi: true,
 
@@ -113,6 +115,9 @@ export const settingsObj = {
 
     malToken: '',
     malRefresh: '',
+
+    mangabakaToken: '',
+    mangabakaRefresh: '',
 
     shikiToken: '',
     shikiOptions: {
@@ -137,7 +142,7 @@ export const settingsObj = {
     }
 
     try {
-      const chibiRepo = await ChibiListRepository.getInstance(true).init();
+      const chibiRepo = await (await ChibiListRepository.getInstance(true)).init();
       this.chibiList = chibiRepo.getList();
     } catch (e) {
       con.error('Error loading chibi repo', e);
